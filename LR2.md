@@ -46,13 +46,79 @@ int main(void)
 ### Результаты выполненной работы
 <img width="301" height="93" alt="1" src="https://github.com/user-attachments/assets/c8b38f6f-a778-4c38-a15c-a5e37356ea59" />
 
-##  Задача 1- создать структуру с указателем на функцию
+##  Задача 2- структура для вектора в трёхмерном пространстве
 ### Постановка задачи:
-Создайте структуру, одно из полей которой является указателем на функцию. Вызовите эту функцию через имя переменной структуры и поле указателя на функцию
+ Реализуйте структуру для вектора в 3D пространстве и добавьте следующие функции:
+ • Скалярное умножение векторов;
+ • Векторное произведение;
+ • Модуль вектора;
+ • Распечатка вектора.
+ Вструктуре также должно быть поле для хранения имени вектора
 ### Математическая модель 
-Отсутсвует
-### Список идентификаторов
+Скалярное произведение векторов: <img width="302" height="51" alt="Cpr" src="https://github.com/user-attachments/assets/9c85f446-3723-4815-a413-b2d71186ed6c" />
+Векторное произведение:  <img width="532" height="41" alt="Vpr" src="https://github.com/user-attachments/assets/86127e46-5a22-40d0-95aa-741c3e5e1129" />
+где a,b - вектора, а нижние индексы 1 и 2 соответсвиуют координатам a и b соотсветственно. Данную формулу можно вывести, если представить координаты в определитель.В отчете представлен конечный вариант формулы.
+Модуль вектора: <img width="185" height="32" alt="mod" src="https://github.com/user-attachments/assets/8ab24574-fda3-4830-bae9-77634258d2b9" />
 
+### Список идентификаторов
+|Имя|Тип|Смысл|
+|   |||
+### Код программы
+```c
+#include <stdio.h>
+#include <math.h>
+
+struct Vector
+{
+    char name[20];
+    double x,y,z;
+};
+double scl_pr(struct Vector v1,struct Vector v2)
+{
+    return v1.x*v2.x+v1.y*v2.y+v1.z*v2.z;
+}
+struct Vector vect_pr(struct Vector v1,struct Vector v2)
+{
+    struct Vector v3={"EF",
+        (v1.y*v2.z-v2.y*v1.z),
+        (v1.x*v2.z-v2.x*v1.z),
+        (v1.x*v2.y-v2.x*v1.y)
+    };
+    return v3;
+}
+double mod_vect(struct Vector v)
+{
+    double xc=v.x;
+    double yc=v.y;
+    double zc=v.z;
+
+    return sqrt(xc*xc+yc*yc+zc*zc);
+}
+struct Vector pechat (struct Vector v)
+{
+    printf("Координаты вектора %s равны (%lf, %lf, %lf)\n",v.name,v.x, v.y, v.z);
+}
+int main(void)
+{
+    struct Vector v1={"AB",1.0,2.5,3.6};
+    struct Vector v2={"CD",3.5,4.2,0.0};
+
+    double res_scl_pr=scl_pr(v1,v2);
+    struct Vector v3=vect_pr(v1,v2);
+    double res_mod=mod_vect(v1);
+    
+    printf("Cкалярное произвдение векторов AB,CD равно: %lf\n",res_scl_pr);
+    printf("Векторное произвдение векторов AB,CD равно %s координаты (%lf, %lf, %lf) \n",v3.name,v3.x,v3.y,v3.z);
+    printf("Модуль вектора AB равен:  %lf\n",res_mod);
+    pechat (v1);
+    pechat (v2);
+
+    return 0;
+}
+```
+### Результаты
+
+<img width="893" height="157" alt="2" src="https://github.com/user-attachments/assets/f6edb551-f824-480c-9d62-e07b08f71f54" />
 
 ##  Задача 1- создать структуру с указателем на функцию
 ### Постановка задачи:
