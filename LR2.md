@@ -55,12 +55,18 @@ int main(void)
  • Распечатка вектора.
  Вструктуре также должно быть поле для хранения имени вектора
 ### Математическая модель 
-Скалярное произведение векторов: <img width="302" height="51" alt="Cpr" src="https://github.com/user-attachments/assets/9c85f446-3723-4815-a413-b2d71186ed6c" />
+Скалярное произведение векторов: 
 
-Векторное произведение:  <img width="532" height="41" alt="Vpr" src="https://github.com/user-attachments/assets/86127e46-5a22-40d0-95aa-741c3e5e1129" />
+<img width="302" height="51" alt="Cpr" src="https://github.com/user-attachments/assets/9c85f446-3723-4815-a413-b2d71186ed6c" />
+
+Векторное произведение:  
+
+<img width="532" height="41" alt="Vpr" src="https://github.com/user-attachments/assets/86127e46-5a22-40d0-95aa-741c3e5e1129" />
+
 где a,b - вектора, а нижние индексы 1 и 2 соответсвиуют координатам a и b соотсветственно. Данную формулу можно вывести, если представить координаты в определитель.В отчете представлен конечный вариант формулы.
 
-Модуль вектора: <img width="185" height="32" alt="mod" src="https://github.com/user-attachments/assets/8ab24574-fda3-4830-bae9-77634258d2b9" />
+Модуль вектора: 
+<img width="185" height="32" alt="mod" src="https://github.com/user-attachments/assets/8ab24574-fda3-4830-bae9-77634258d2b9" />
 
 ### Список идентификаторов
 |Имя|Тип|Смысл|
