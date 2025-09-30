@@ -257,11 +257,171 @@ int main(void)
 ### Результаты
 <img width="315" height="67" alt="4" src="https://github.com/user-attachments/assets/36ad02d2-8275-4223-b02a-f27d11d9c37a" />
 
-##  Задача 4- создать структуру с указателем на функцию
+##  Задача 5- реализация двусвязного списка
 ### Постановка задачи:
-Создайте структуру, одно из полей которой является указателем на функцию. Вызовите эту функцию через имя переменной структуры и поле указателя на функцию
+Реализуйте структуру и функции для создания и наполнения двусвязного списка, а также функции для его обхода и
+ распечатки:
+ • Прямой обход списка с выводом значений;
+ • Обратный обход списка с выводом значений.
+ Это сложная задача- код нужно написать в общем виде, используя указатели void * на произвольные данные, хра
+нимые в узлах списка.
 ### Математическая модель 
 Отсутсвует
 ### Список идентификаторов
+| Имя |Тип|Смысл|
+|-----|-------------|-----|
+|*list|struct Spicok|Переменная, являющаяся ссылкой на кокнкретный единичный экземпляр структцры Spicok|
+|  a  |    int      |                Переменная, которая является узлом двусвязного списка             |
+|  b  |     int     |                Переменная, которая является узлом двусвязного списка             |
+|  c  |     int     |                Переменная, которая является узлом двусвязного списка             |
+| *s1 |    char     |                Переменная, которая хранит адрес узла двусвязного списка          |
+| *s2 |    char     |                Переменная, которая хранит адрес узла двусвязного списка          |
+
+### Код программы
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Spicok //Структура узла двусвязного списка
+{
+    void *note;//ссылка текущий узел
+    struct Spicok *before;//ссылка на следующий узел
+    struct Spicok *next;//ссылка на предыдущий узел
+};
+
+struct Spicok* create(void *note, size_t note_size)//создание нового узла с копией данных
+{
+    struct Spicok *newNote=(struct Spicok*) malloc (sizeof(struct Spicok));
+    if (!newNote) return NULL;
+
+    newNote->note=malloc(note_size);
+    if (!(newNote->note))
+    {
+        free(newNote);
+        return NULL;
+    }
+
+    for (size_t i=0;i<note_size;i++)//Копия данных в новую память
+    {
+        ((char*)newNote->note)[i]=((char*)note)[i];
+    }
+    newNote->before=NULL;
+    newNote->next=NULL;
+
+    return newNote;
+}
+
+void addNote(struct Spicok **head,void *note,size_t note_size)
+{
+    struct Spicok *newNote=create(note,note_size);
+    if (!newNote) return;
+
+    if (*head==NULL)
+    {
+        *head=newNote;
+        return;
+    }
+
+    struct Spicok *temp=*head;
+    while (temp->next!=NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next=newNote;
+    newNote->before=temp;
+}
+
+//Функция осовобождения памяти списка
+void freeList(struct Spicok **head)
+{
+    struct Spicok *temp=*head;
+    while (temp!=NULL)
+    {
+        struct Spicok *next=temp->next;
+        free(temp->note);
+        free (temp);
+        temp=next;
+    }
+    *head=NULL;
+}
+
+//Пример функции печати для int
+void printInt(void *note)
+{
+    printf("%d ", *(int*)note);
+}
+
+//Пример функции печати для строки
+void printString (void *note)
+{
+    printf("%s ",(char*)note);
+}
+//Пример использования
+
+void forwardTraversal(struct Spicok *head, void (*printFunc)(void *)) {
+    struct Spicok *temp = head;
+    while (temp) {
+        printFunc(temp->note);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Обратный проход: от конца к голове
+void backwardTraversal(struct Spicok *head, void (*printFunc)(void *)) {
+    if (!head) return;
+
+    struct Spicok *temp = head;
+    // Найти последний элемент
+    while (temp->next) {
+        temp = temp->next;
+    }
+    // Идти назад по before
+    while (temp) {
+        printFunc(temp->note);
+        temp = temp->before;
+    }
+    printf("\n");
+}
+
+int main(void)
+{
+    struct Spicok *list=NULL;
+
+    int a=10,b=20,c=30;
+    addNote(&list,&a,sizeof(int));
+    addNote(&list,&b,sizeof(int));
+    addNote(&list,&c,sizeof(int));
+
+
+    printf("Прямой проход строк: ");
+    forwardTraversal(list, printInt);
+
+    printf("Обратный проход строк: ");
+    backwardTraversal(list, printInt);
+    
+    freeList(&list);
+
+    char *s1="Hello";
+    char *s2="World";
+    addNote(&list,s1,strlen(s1)+1);
+    addNote(&list,s2,strlen(s2)+1);
+
+     printf("Прямой проход строк: ");
+    forwardTraversal(list, printString);
+
+    printf("Обратный проход строк: ");
+    backwardTraversal(list, printString);
+    
+    freeList(&list);
+
+    return 0;
+}
+```
+### Результаты
+<img width="348" height="133" alt="5" src="https://github.com/user-attachments/assets/65339484-2af2-4006-969c-6d1adbea368d" />
+
+
+### Информация об обучающемся: Федькина Полина Дмитриевна, группа ПОО, 1 курс.
 
 
