@@ -144,6 +144,8 @@ int main(void)
 
 ### Математическая модель 
 <img width="320" height="66" alt="Ф1" src="https://github.com/user-attachments/assets/b719d279-f00b-4495-bc78-7a8c94d21b62" />
+
+
 Сложение двух комплексных чисел
 
 <img width="272" height="37" alt="С1" src="https://github.com/user-attachments/assets/07db752c-4700-46c9-a2d7-0a2c52251f71" />
