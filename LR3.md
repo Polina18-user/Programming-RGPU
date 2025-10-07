@@ -223,9 +223,110 @@ int main(void)
  ### Математическая модель
  Отсутсвует
  ### Список идентификаторов
+| Имя |Тип|Смысл|
+|-----|---|-----|
+|n|int|Количество элементов массива|
+|students|struct Student|Экземпляр структура Student|
  ### Код программы
+ ```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define NAME_LEN 50
+#define AGE_TEXT_LEN 30
+
+typedef enum{
+    AGE_INT,
+    AGE_TEXT
+}AgeType;
+
+typedef union
+{
+    int ageNumber;
+    char ageText[AGE_TEXT_LEN];
+}AgeUnion;
+
+typedef struct 
+{
+    char name[NAME_LEN];
+    AgeType ageType;
+    AgeUnion age;
+}Student;
+
+// Чтение студента с динамическим вводом возраста
+void inputStudent(Student* student)
+{
+    printf("Введите имя студента: ");
+    fgets(student->name, NAME_LEN,stdin);
+    student->name[strcspn(student->name, "/n")]=0;
+// Убираем символ новой строки
+    printf("Введите тип возраста: (0 - число, 1 - словами): ");
+    int type;
+    scanf("%d",&type);
+    while (getchar()!='\n');//Очистка
+    if (type==0)
+    {
+        student->ageType=AGE_INT;
+        printf("Введите возраст (числом): ");
+        scanf("%d",&student->age.ageNumber);
+        while (getchar()!='\n');
+    }
+    else
+    {
+        student->ageType=AGE_TEXT;
+        printf("Введите возраст (словами): ");
+        fgets(student->age.ageText,AGE_TEXT_LEN,stdin);
+        student->age.ageText[strcspn(student->age.ageText,"\n")]=0;
+    }
+}
+void printStudent(const Student* student)
+{
+    printf("Имя: %s, Возраст: ",student->name);
+    if (student->ageType==AGE_INT)
+    {
+        printf("%d\n",student->age.ageNumber);
+    }
+    else
+    {
+        printf("%s\n",student->age.ageText);
+    }
+}
+int main(void)
+{
+    int n;
+    printf("Сколько студентов хотите ввести? ");
+    scanf("%d", &n);
+    while (getchar()!='\n');
+
+    Student* students=malloc(n*sizeof(Student));
+    if (!students)
+    {
+        perror("Ошибка выделения памяти");
+        return 1;
+    }
+
+    for (int i=0;i<n;i++)
+    {
+        printf("\nСтудент %d: \n",i+1);
+        inputStudent(&students[i]);
+    }
+
+    printf("\nВведенные данные: \n");
+    for (int i=0; i<n;i++)
+    {
+        printStudent(&students[i]);
+    }
+
+    free(students);
+    return 0;
+
+}
+
+```
  ### Результат
- 
+ <img width="492" height="442" alt="5" src="https://github.com/user-attachments/assets/cbed0f73-6359-477f-a8be-e54f728911f2" />
+
 ## Задача 6- управление состояниями системы через enum
 ### Постановка задача:
  Используйте перечисление (enum) для управления состояниями некоторой условной системы, например, старт, стоп,
@@ -289,7 +390,6 @@ int main(void)
 
 ```
  ### Результат
- 
  <img width="301" height="170" alt="6" src="https://github.com/user-attachments/assets/24012cdd-a003-4814-aefb-0e638c455bf7" />
 
 
